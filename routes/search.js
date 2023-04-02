@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const searchRouter = require('./search.js');
 
+// Route for getting all users
 router.get('/', (req, res) => {
-  res.send('Hello Asksuite World!');
+  res.send('Get all hotels');
 });
-
-router.use('/search', searchRouter);
 
 module.exports = router;
