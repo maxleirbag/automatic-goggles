@@ -9,5 +9,5 @@ const port = process.env.PORT;
 
 app.use('/', router);
 app.listen(port || 8080, () => {
-    console.log(`Listening on port ${port}`);
+    console.log(`Listening on port ${port || 8080}`);
 });
