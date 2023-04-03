@@ -8,30 +8,30 @@ class LetsbookScraperService {
   }
 
   getRooms() {
-    return this.rooms
+    return this.rooms;
   }
   async setRooms(data) {
     this.rooms = data;
   }
 
   async scrapeMinimumData() {
-    const browser = await getBrowser()
+    const browser = await getBrowser();
     const page = await browser.newPage();
 
-    console.log(this.url)
-    await page.goto(this.url)
+    console.log(this.url);
+    await page.goto(this.url);
 
     const unavailable = await page.evaluate(() => {
-      if (document.querySelector("#hotel-selecionado-indisponivel > button.lb-modal_close")) {
-        document.querySelector("#hotel-selecionado-indisponivel > button.lb-modal_close").click()
+      if (document.querySelector('#hotel-selecionado-indisponivel > button.lb-modal_close')) {
+        document.querySelector('#hotel-selecionado-indisponivel > button.lb-modal_close').click();
         return true;
       } else {
-        return false
+        return false;
       }
-    })
+    });
     if (unavailable) {
-      this.setRooms = {}
-      return {}
+      this.setRooms = {};
+      return {};
     } else {
       await page.waitForSelector('#tblAcomodacoes');
     }
@@ -50,10 +50,10 @@ class LetsbookScraperService {
       const name = await this.getNames(room);
       const main_image = await this.getMainImage(room, page);
 
-      roomsInformation.push({ name, description, price, main_image })
+      roomsInformation.push({ name, description, price, main_image });
     }
     await this.setRooms(roomsInformation);
-    closeBrowser(browser)
+    closeBrowser(browser);
   }
 
   async getDescriptions(page) {
@@ -78,16 +78,13 @@ class LetsbookScraperService {
     return prices;
   }
   async getNames(room) {
-    const name = await room.$eval(
-      'td.tdQuarto > div > div.flex-table-row > span',
-      (el) => el.innerText
-    );
+    const name = await room.$eval('td.tdQuarto > div > div.flex-table-row > span', (el) => el.innerText);
     return name;
   }
   async getMainImage(room, page) {
     const images = await this.getImages(room, page);
-    const mainImage = images.filter(image => image.includes('fotoprincipal'))[0]
-    return mainImage
+    const mainImage = images.filter((image) => image.includes('fotoprincipal'))[0];
+    return mainImage;
   }
   async getImages(room, page) {
     let images = [];
@@ -124,7 +121,7 @@ class LetsbookScraperService {
       const name = await this.getNames(room);
       const images = await this.getImages(room, page);
 
-      roomsInformation.push({ name, description, price, images })
+      roomsInformation.push({ name, description, price, images });
     }
     await this.setRooms(roomsInformation);
   }
@@ -136,14 +133,16 @@ class LetsbookScraperService {
     await page.goto(
       'https://pratagy.letsbook.com.br/D/Reserva?checkin=01%2F05%2F2023&checkout=12%2F05%2F2023&cidade=&hotel=12&adultos=2&criancas=&destino=Pratagy+Beach+Resort+All+Inclusive&promocode=&tarifa=&mesCalendario=4%2F14%2F2023'
     );
-    await page.waitForSelector('.container-lightbox-cupom')
+    await page.waitForSelector('.container-lightbox-cupom');
 
     const promoCode = await page.evaluate(() => {
-      const descriptionsElements = document.querySelector("#retorno-consulta-container > div.modal-lightbox > div > div > div.conteudo-lightbox > div > div.container-lightbox-cupom > div > span")
-      const text = descriptionsElements.innerText
-      return text
-    })
-    return promoCode
+      const descriptionsElements = document.querySelector(
+        '#retorno-consulta-container > div.modal-lightbox > div > div > div.conteudo-lightbox > div > div.container-lightbox-cupom > div > span'
+      );
+      const text = descriptionsElements.innerText;
+      return text;
+    });
+    return promoCode;
   }
 }
 

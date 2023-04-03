@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  return searchLetsbookDefaultHotelWithMinimumData(req, res)
-})
+  return searchLetsbookDefaultHotelWithMinimumData(req, res);
+});
 
 module.exports = router;
