@@ -10,7 +10,7 @@
 
 1. Ao clonar o repositório, garanta que existe uma pasta chamada ".cache/" na raiz do projeto.
 2. Execute o comando "npm install" e aguarde até que todas as bilbiotecas sejam baixadas.
-3. Crie um arquivo .env, contendo as seguintes propriedades: [DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT,SERVER_PORT]
+3. Crie um arquivo .env, contendo as seguintes propriedades: [DB_USERNAME, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT, SERVER_PORT]
 4. Para iniciar a aplicação, use "npm start"
 5. Se tudo estiver configurado, o console deve logar:
    "Server is listening on port DB_PORT
