@@ -103,7 +103,6 @@ class LetsbookScraperService {
     await page.goto(
       'https://pratagy.letsbook.com.br/D/Reserva?checkin=01%2F05%2F2023&checkout=12%2F05%2F2023&cidade=&hotel=12&adultos=2&criancas=&destino=Pratagy+Beach+Resort+All+Inclusive&promocode=&tarifa=&mesCalendario=4%2F14%2F2023'
     );
-    // await page.goto('https://royalmacae.letsbook.com.br/D/Reserva?checkin=25%2F04%2F2023&checkout=29%2F04%2F2023&cidade=&hotel=12&adultos=1&criancas=&destino=Royal+Maca%C3%A9+Palace+Hotel&promocode=&tarifa=&mesCalendario=3%2F1%2F2023')
 
     await page.waitForSelector('#tblAcomodacoes');
 
@@ -112,6 +111,7 @@ class LetsbookScraperService {
 
     const descriptions = await this.getDescriptions(page);
     const prices = await this.getPrices(page);
+    const promoCode = await this.getPromoCode(page);
 
     for (let i = 0; i < roomNodes.length; i++) {
       const description = descriptions[i];
@@ -121,18 +121,12 @@ class LetsbookScraperService {
       const name = await this.getNames(room);
       const images = await this.getImages(room, page);
 
-      roomsInformation.push({ name, description, price, images });
+      roomsInformation.push({ name, description, price, images, promoCode });
     }
     await this.setRooms(roomsInformation);
   }
 
-  async getPromoCode() {
-    const browser = await getBrowser();
-    const page = await browser.newPage();
-
-    await page.goto(
-      'https://pratagy.letsbook.com.br/D/Reserva?checkin=01%2F05%2F2023&checkout=12%2F05%2F2023&cidade=&hotel=12&adultos=2&criancas=&destino=Pratagy+Beach+Resort+All+Inclusive&promocode=&tarifa=&mesCalendario=4%2F14%2F2023'
-    );
+  async getPromoCode(page) {
     await page.waitForSelector('.container-lightbox-cupom');
 
     const promoCode = await page.evaluate(() => {

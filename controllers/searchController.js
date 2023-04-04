@@ -76,3 +76,48 @@ exports.getAllReservationsAttempts = async (req, res) => {
     res.status(400).send('Não foi possível buscar todas as tentativas de busca.');
   }
 };
+
+// hotelDomain examples: royalmacae, flixhotel
+exports.searchLetsbookUltraSpecific = async (req, res) => {
+  try {
+    const { body } = req;
+    const { nAdults, nChildren, hotelDomain } = body;
+    const checkinDateParts = body.checkin.split('-');
+    const checkoutDateParts = body.checkout.split('-');
+
+    const isSearchPossible = isDatePeriodValid(checkinDateParts, checkoutDateParts);
+
+    if (isSearchPossible) {
+      const { checkinURL, checkoutURL } = adaptCheckinAndCheckoutPayloadToURL(checkinDateParts, checkoutDateParts);
+      const searchURL = `https://${hotelDomain}.letsbook.com.br/D/Reserva?checkin=${checkinURL}&checkout=${checkoutURL}&adultos=${nAdults}&criancas=${nChildren}&destino=&hotel=1`;
+
+      const query = searchURL.split('?')[1];
+      const bookingEngine = 'letsbook';
+      const scrap = new LetsbookDataScraper(searchURL);
+      await scrap.scrapeDataIncludingAllRoomImages();
+      const resultingRooms = scrap.getRooms();
+
+      const finalObj = {
+        search_query: query,
+        booking_engine: bookingEngine,
+        ...resultingRooms,
+      };
+      const transaction = await sequelize.transaction();
+      try {
+        await ReservationAttempts.bulkCreate(finalObj, { transaction: transaction });
+        await transaction.commit();
+        res.status(200).send(finalObj);
+      } catch (error) {
+        await transaction.rollback();
+        console.error(error);
+        res.send(finalObj);
+      }
+    } else {
+      res.send('Intervalo de data para reserva inválido. Tente novamente com um período sequencial de pelo menos 4 diárias.');
+      console.log('Intervalo de data para reserva inválido. Tente novamente com um período sequencial de pelo menos 4 diárias.');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).send('Não foi possível buscar as informações da reserva para o hotel especificado, com os dados fornecidos.');
+  }
+};
