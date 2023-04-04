@@ -2,10 +2,10 @@
   "name": "asksuite-test",
   "version": "1.0.0",
   "description": "Data scraping a hotel reservation site.",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "node app/index.js",
+    "dev": "nodemon app/index.js",
     "test": "jest",
     "migrate": "npx sequelize-cli db:migrate --env development --config ./database/config/db.js --migrations-path ./database/migrations"
   },

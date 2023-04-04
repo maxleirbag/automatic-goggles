@@ -1,0 +1,83 @@
+{
+	"info": {
+		"_postman_id": "a1c0a546-acda-4d13-bcfb-ad03a9895a9b",
+		"name": "Letsbook Data Scraping",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "searchLetsbookDefaultHotelWithMinimumData",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n      \"checkin\": \"2023-09-15\", \n      \"checkout\": \"2023-09-23\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{server_port}}/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{server_port}}",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllReservationsAttempts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{server_port}}/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{server_port}}",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server_port",
+			"value": "3006",
+			"type": "default"
+		}
+	]
+}
