@@ -18,13 +18,18 @@
 
 ### Issues Possíveis
 
-a. Se a Model (ReservationAttempts) do Sequelize não inicializar por conta própria, execute o script "npm run migrate" para forçar que a model seja criada na sua database de escolha, via migration.
-b. Se rodar uma migration e não quiser consertar do jeito "delicado", TRUNCANTE na tabela SequelizeMeta ou DROP TABLE na problemática é uma possibilidade (pouco digna, mas viável no começo de projeto enquanto a brutalidade não pune tanto). No pior dos casos um DUMP do banco alivia a consciência.
+a) Se a Model (ReservationAttempts) do Sequelize não inicializar por conta própria, execute o script "npm run migrate" para forçar que a model seja criada na sua database de escolha, via migration.
+<br>
+b) Se rodar uma migration e não quiser consertar do jeito "delicado", TRUNCANTE na tabela SequelizeMeta ou DROP TABLE na problemática é uma possibilidade (pouco digna, mas viável no começo de projeto enquanto a brutalidade não pune tanto). No pior dos casos um DUMP do banco alivia a consciência.
 
 ## Documentação da API
-
 https://documenter.getpostman.com/view/15861538/2s93RWPraQ
 
-## Database: única model usada
+## Sonar Cloud findings (bugs, code smells, vulnerabilities, security flaws):
+![image](https://user-images.githubusercontent.com/78800453/229676067-c78ed82a-a4d2-4b4a-bfba-71487640bb9e.png)
 
+## Git Guardian incidents
+![image](https://user-images.githubusercontent.com/78800453/229676418-1533dc9a-777d-4b85-a88a-61bed6c8f03e.png)
+
+## Database: única model usada
 ![image](./assets/initial_database.png)
